@@ -1,6 +1,7 @@
 package sorting
 
 import (
+	"math/rand"
 	"reflect"
 	"testing"
 )
@@ -23,6 +24,27 @@ type sortTestData struct {
 	Expected []int
 }
 
+var lengthyNumbers = prepareLengthyNumberSlice(1000)
+var lengthyNumbersShuffled = shuffle(lengthyNumbers)
+
+func shuffle(nums []int) []int {
+	res := make([]int, len(nums))
+	copy(res, nums)
+	rand.Shuffle(1000, func(i, j int) {
+		res[i], res[j] = res[j], res[i]
+	})
+	return res
+}
+
+func prepareLengthyNumberSlice(n int) []int {
+	arr := make([]int, n)
+
+	for i := 0; i < n; i++ {
+		arr[i] = i
+	}
+	return arr
+}
+
 var testData = []sortTestData{
 	{
 		Case:     "All numbers in reverse",
@@ -39,6 +61,11 @@ var testData = []sortTestData{
 		Case:     "Already sorted",
 		Input:    []int{1, 2, 3, 4, 5},
 		Expected: []int{1, 2, 3, 4, 5},
+	},
+	{
+		Case:     "Lenghty numbers",
+		Input:    lengthyNumbersShuffled,
+		Expected: lengthyNumbers,
 	},
 }
 
